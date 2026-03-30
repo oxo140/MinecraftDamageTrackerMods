@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "damagetracker",
+  "version": "${version}",
+  "name": "Damage Tracker",
+  "description": "Affiche en temps réel quel joueur subit des dégâts dans un environnement multijoueur. / Displays real-time notifications when a player takes damage in multiplayer.",
+  "authors": [
+    "oxo140"
+  ],
+  "contact": {
+    "sources": "https://github.com/oxo140/MinecraftDamageTrackerMods"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.damagetracker.DamageTrackerMod"
+    ],
+    "client": [
+      "com.damagetracker.DamageTrackerClient"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "fabric-api": "*",
+    "minecraft": "~1.21",
+    "java": ">=21"
+  }
+}
