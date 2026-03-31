@@ -45,5 +45,6 @@
   "damage.modid.generic_kill": "Muerte",
   "damage.modid.menu.title": "Ajustes de Damage Notify",
   "damage.modid.menu.auto": "Idioma: Auto (Sigue al juego)",
-  "damage.modid.menu.close": "Cerrar"
+  "damage.modid.menu.close": "Cerrar",
+  "damage.modid.menu.saved": "¡Idioma guardado con éxito!"
 }

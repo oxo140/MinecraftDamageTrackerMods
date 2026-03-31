@@ -57,12 +57,12 @@ public final class DamageHud {
 		if (attackerTypeId != null && !attackerTypeId.isEmpty()) {
 			try {
 				Identifier loc = Identifier.parse(attackerTypeId);
-				// Les noms des mobs vanilla restent dans la langue du jeu, c'est plus naturel
+				// Le nom des mobs vanilla reste dans la langue du jeu (plus naturel)
 				Component name = Component.translatable("entity." + loc.getNamespace() + "." + loc.getPath());
 				String mob = name.getString();
 				
 				if ("explosion".equals(Identifier.parse(damageTypeId).getPath())) {
-					// Utilisation de NOTRE traducteur
+					// ON UTILISE NOTRE CONFIG POUR LA TRADUCTION DE L'EXPLOSION
 					String format = ModConfig.translate("damage.modid.explosion_by", "%s (explosion)");
 					return format.replace("%s", mob);
 				}
@@ -70,14 +70,15 @@ public final class DamageHud {
 			} catch (Exception ignored) {}
 		}
 		
-		// 2. Traduction de notre mod
+		// 2. Traduction de notre mod (chute, feu, lave...)
 		try {
 			String path = Identifier.parse(damageTypeId).getPath();
 			String translationKey = "damage.modid." + path;
 			
-			// On demande à notre ModConfig de traduire !
+			// ON UTILISE NOTRE CONFIG AU LIEU DU JEU NATIF
 			String translated = ModConfig.translate(translationKey, translationKey);
 			
+			// Si la traduction n'a pas été trouvée, on met le nom brut (secours)
 			if (translated.equals(translationKey)) {
 				return shortId(damageTypeId);
 			}

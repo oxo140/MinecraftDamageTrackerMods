@@ -21,12 +21,12 @@ public final class DamageNotifyClient {
         // 1. Initialisation de la configuration
         ModConfig.load();
 
-        // 2. Enregistrement de la commande locale /confighealth
+        // 2. Enregistrement de la commande locale /confighealthlanguage
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(ClientCommandManager.literal("confighealth")
+            dispatcher.register(ClientCommandManager.literal("confighealthlanguage")
                 .executes(context -> {
                     // L'ouverture d'un écran doit absolument se faire sur le thread du Client
-                    context.getSource().getClient().execute(() -> {
+                    Minecraft.getInstance().execute(() -> {
                         Minecraft.getInstance().setScreen(new ConfigScreen());
                     });
                     return 1;

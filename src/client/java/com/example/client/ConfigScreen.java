@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 public class ConfigScreen extends Screen {
 
     public ConfigScreen() {
-        // Le titre utilisera la langue du jeu
         super(Component.translatable("damage.modid.menu.title"));
     }
 
@@ -17,34 +16,50 @@ public class ConfigScreen extends Screen {
         int startY = this.height / 4;
         int centerX = this.width / 2 - 100;
 
-        // Bouton 1 : Automatique (Suit la langue du jeu)
+        // Bouton 1 : Automatique
         this.addRenderableWidget(Button.builder(Component.translatable("damage.modid.menu.auto"), btn -> {
-            ModConfig.save("auto");
-            this.minecraft.setScreen(null);
+            setLanguageAndClose("auto");
         }).bounds(centerX, startY, 200, 20).build());
 
-        // Bouton 2 : Français (Fixe)
+        // Bouton 2 : Français
         this.addRenderableWidget(Button.builder(Component.literal("Langue : Français"), btn -> {
-            ModConfig.save("fr_fr");
-            this.minecraft.setScreen(null);
+            setLanguageAndClose("fr_fr");
         }).bounds(centerX, startY + 25, 200, 20).build());
 
-        // Bouton 3 : English (Fixe)
+        // Bouton 3 : English
         this.addRenderableWidget(Button.builder(Component.literal("Language : English"), btn -> {
-            ModConfig.save("en_us");
-            this.minecraft.setScreen(null);
+            setLanguageAndClose("en_us");
         }).bounds(centerX, startY + 50, 200, 20).build());
 
-        // Bouton 4 : Español (Fixe)
+        // Bouton 4 : Español
         this.addRenderableWidget(Button.builder(Component.literal("Idioma : Español"), btn -> {
-            ModConfig.save("es_es");
-            this.minecraft.setScreen(null);
+            setLanguageAndClose("es_es");
         }).bounds(centerX, startY + 75, 200, 20).build());
         
-        // Bouton Fermer (Suit la langue du jeu)
+        // Bouton Fermer
         this.addRenderableWidget(Button.builder(Component.translatable("damage.modid.menu.close"), btn -> {
             this.minecraft.setScreen(null);
         }).bounds(centerX, startY + 115, 200, 20).build());
+    }
+
+    /**
+     * Méthode maison pour sauvegarder, envoyer un message chat, et fermer l'écran.
+     */
+    private void setLanguageAndClose(String langCode) {
+        // 1. On sauvegarde (ce qui recharge immédiatement les traductions en mémoire)
+        ModConfig.save(langCode);
+        
+        // 2. On envoie un message dans le chat uniquement visible par le joueur local
+        if (this.minecraft != null && this.minecraft.player != null) {
+            // On traduit le message avec la nouvelle langue sélectionnée
+            String translatedMsg = ModConfig.translate("damage.modid.menu.saved", "Language saved!");
+            
+            // Le "§a" permet d'écrire le texte en vert clair dans le chat
+            this.minecraft.player.displayClientMessage(Component.literal("§a" + translatedMsg), false);
+        }
+        
+        // 3. On ferme le menu
+        this.minecraft.setScreen(null);
     }
 
     @Override

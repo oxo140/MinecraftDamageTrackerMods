@@ -45,5 +45,6 @@
   "damage.modid.generic_kill": "Death",
   "damage.modid.menu.title": "Damage Notify Settings",
   "damage.modid.menu.auto": "Language: Auto (Follows game)",
-  "damage.modid.menu.close": "Close"
+  "damage.modid.menu.close": "Close",
+  "damage.modid.menu.saved": "Language successfully saved!"
 }
