@@ -1,8 +1,6 @@
 package com.example.client;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -30,59 +28,7 @@ public final class DamageHud {
 	private static volatile int damageStartCharIndex = 0;
 	private static volatile long hideAtMs = 0L;
 
-	private static final Map<String, String> DAMAGE_TYPE_FR = new HashMap<>();
-
-	static {
-		put("minecraft:fall", "Chute");
-		put("minecraft:fly_into_wall", "Mur");
-		put("minecraft:stalagmite", "Stalagmite");
-		put("minecraft:fell_out_of_world", "Chute dans le vide");
-		put("minecraft:out_of_world", "Void");
-		put("minecraft:fireball", "Boule de feu");
-		put("minecraft:on_fire", "Feu");
-		put("minecraft:in_fire", "Feu");
-		put("minecraft:lava", "Lave");
-		put("minecraft:hot_floor", "Sol brûlant");
-		put("minecraft:campfire", "Feu de camp");
-		put("minecraft:lightning_bolt", "Foudre");
-		put("minecraft:explosion", "Explosion");
-		put("minecraft:player_attack", "Joueur");
-		put("minecraft:mob_attack", "Mob");
-		put("minecraft:mob_attack_no_aggro", "Mob");
-		put("minecraft:player_explosion", "Explosion (joueur)");
-		put("minecraft:arrow", "Flèche");
-		put("minecraft:trident", "Trident");
-		put("minecraft:fireworks", "Feu d'artifice");
-		put("minecraft:sting", "Piqûre");
-		put("minecraft:spit", "Crachat");
-		put("minecraft:freeze", "Gel");
-		put("minecraft:falling_anvil", "Enclume");
-		put("minecraft:falling_block", "Bloc tombant");
-		put("minecraft:falling_stalactite", "Stalactite");
-		put("minecraft:dragon_breath", "Souffle du dragon");
-		put("minecraft:cactus", "Cactus");
-		put("minecraft:sweet_berry_bush", "Baies");
-		put("minecraft:drown", "Noyade");
-		put("minecraft:starve", "Faim");
-		put("minecraft:suffocation", "Suffocation");
-		put("minecraft:in_wall", "Dans un mur");
-		put("minecraft:magic", "Magie");
-		put("minecraft:indirect_magic", "Magie");
-		put("minecraft:thorns", "Épines");
-		put("minecraft:sonic_boom", "Warden");
-		put("minecraft:unattributed_fireball", "Boule de feu");
-		put("minecraft:wither", "Wither");
-		put("minecraft:mob_projectile", "Projectile");
-		put("minecraft:bad_respawn_point", "Lit / ancre");
-		put("minecraft:outside_border", "Bordure");
-		put("minecraft:generic_kill", "Mort");
-	}
-
 	private DamageHud() {
-	}
-
-	private static void put(String id, String fr) {
-		DAMAGE_TYPE_FR.put(id, fr);
 	}
 
 	public static void show(String victimName, String damageTypeId, String attackerTypeId, float amount) {
@@ -106,21 +52,37 @@ public final class DamageHud {
 	}
 
 	private static String labelFor(String damageTypeId, String attackerTypeId) {
+		// 1. Si un mob/joueur est responsable de l'attaque
 		if (attackerTypeId != null && !attackerTypeId.isEmpty()) {
 			try {
 				Identifier loc = Identifier.parse(attackerTypeId);
-				Component name = Component.translatable(
-						"entity." + loc.getNamespace() + "." + loc.getPath());
+				Component name = Component.translatable("entity." + loc.getNamespace() + "." + loc.getPath());
 				String mob = name.getString();
+				
+				// Cas particulier d'un creeper / ghast
 				if ("explosion".equals(Identifier.parse(damageTypeId).getPath())) {
-					return mob + " (explosion)";
+					return Component.translatable("damage.modid.explosion_by", mob).getString();
 				}
 				return mob;
 			} catch (Exception ignored) {
-				// fallback below
+				// On passe au système de secours si la traduction de l'entité échoue
 			}
 		}
-		return DAMAGE_TYPE_FR.getOrDefault(damageTypeId, shortId(damageTypeId));
+		
+		// 2. Traduction du type de dégât générique (feu, chute, etc.)
+		try {
+			String path = Identifier.parse(damageTypeId).getPath();
+			String translationKey = "damage.modid." + path;
+			Component translated = Component.translatable(translationKey);
+			
+			// Si la traduction n'existe pas, Minecraft renvoie la clé elle-même
+			if (translated.getString().equals(translationKey)) {
+				return shortId(damageTypeId);
+			}
+			return translated.getString();
+		} catch (Exception e) {
+			return damageTypeId;
+		}
 	}
 
 	private static String shortId(String damageTypeId) {
