@@ -1,49 +1,58 @@
-Français
-Description du Mod (Beta)
+# 🔗 SharedGamesPlay (v1.0 Beta)
 
-Ce mod, actuellement en phase Beta, permet d'afficher en temps réel quel joueur subit des dégâts dans un environnement multijoueur. 
+![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.11-green.svg)
+![Mod Loader](https://img.shields.io/badge/Loader-Fabric-orange.svg)
+![Status](https://img.shields.io/badge/Status-In--Development-yellow.svg)
 
-⚠️ Installation : Le mod doit être installé à la fois sur le Serveur et sur le Client pour fonctionner correctement.
+---
 
-Version actuelle : Minecraft 1.21.11 (Fabric)
+## 🇺🇸 English
 
-Fonctionnalité actuelle : Affichage immédiat du nom du joueur qui prend des dégâts dans l'action bar.
+**SharedGamesPlay** is a multiplayer mod designed to transform classic survival into an intense cooperative experience. The goal is simple: what happens to one happens to everyone.
 
-🚀 Prochaines mises à jour (Coming Soon) :
+### 🛠️ Current Features (v1.0)
+* **Damage Tracker**: Displays a real-time notification above the XP bar whenever a player takes damage.
+* **Combat Info**: Shows the **player's name** and the **source of damage** (fire, monster, fall, etc.).
+* **🌐 Multi-language Support**: Native support for English, French, and Spanish.
+* **⚙️ Configuration Interface**: Use the in-game command `/confighealthlanguage` to open a visual menu and force your preferred language.
 
-Le mod est en développement ! Voici ce qui arrive :
+### 🚀 Roadmap (Upcoming Updates)
+* ❤️ **Health Sync**: One single health bar for the whole team. If one player dies, everyone dies!
+* 🍗 **Shared Hunger**: Collective management of the hunger bar.
+* 🦘 **Shared Jumps & Effects**: Synchronized jumps and potion effects (speed, strength, etc.) across all players.
 
-❤️ Synchronisation de la vie : Si un joueur prend un coup, tout le monde perd de la vie !
+---
 
-🍗 Faim partagée : Une seule barre de faim pour toute l'équipe.
+## 🇪🇸 Español
 
-🦘 Sauts partagés : Sautez ensemble pour survivre.
+**SharedGamesPlay** es un mod multijugador diseñado para transformar la supervivencia clásica en una experiencia cooperativa intensa. El objetivo es simple: lo que le sucede a uno, les sucede a todos.
 
-✨ Effets de potions partagés : Un joueur boit une potion, tout le monde en profite.
+### 🛠️ Características Actuales (v1.0)
+* **Rastreador de Daño**: Muestra una notificación en tiempo real sobre la barra de experiencia cada vez que un jugador recibe daño.
+* **Información de Combate**: Indica el **nombre del jugador** y la **fuente del daño** (fuego, monstruo, caída, etc.).
+* **🌐 Soporte Multilingüe**: Soporte nativo para inglés, francés y español.
+* **⚙️ Interfaz de Configuración**: Usa el comando `/confighealthlanguage` en el juego para abrir un menú visual y elegir tu idioma preferido.
 
-⚙️ Menu de configuration : Activez ou désactivez chaque option selon vos envies.
+### 🚀 Roadmap (Próximas Actualizaciones)
+* ❤️ **Sincronización de Vida**: Una sola barra de salud para todo el equipo. ¡Si uno muere, todos mueren!
+* 🍗 **Hambre Compartida**: Gestión colectiva de la barra de hambre.
+* 🦘 **Saltos y Efectos Compartidos**: Sincronización de saltos y efectos de pociones entre todos los jugadores.
 
-English
-Mod Description (Beta)
+---
 
-This mod is currently in Beta. It displays a real-time notification whenever a player takes damage in a multiplayer world in french. 
+## 🇫🇷 Français
 
-⚠️ Installation: This mod is required on both Server-side and Client-side to function properly.
+**SharedGamesPlay** est un mod multijugeur conçu pour transformer la survie classique en une expérience coopérative intense. Le but est simple : ce qui arrive à l'un arrive aux autres.
 
-Current Version: Minecraft 1.21.11 (Fabric)
+### 🛠️ Fonctionnalités Actuelles (v1.0)
+* **Damage Tracker** : Affiche une notification en temps réel au-dessus de la barre d'XP lorsqu'un joueur subit des dégâts.
+* **Informations de Combat** : Précise le **nom du joueur** ainsi que la **source des dégâts** (feu, monstre, chute, etc.).
+* **🌐 Système Multilingue** : Support natif du Français, de l'Anglais et de l'Espagnol.
+* **⚙️ Interface de Configuration** : Utilisez la commande `/confighealthlanguage` en jeu pour ouvrir un menu visuel et forcer votre langue préférée.
 
-Current Feature: Instant Action Bar notification showing which player took damage.
+### 🚀 Roadmap (Prochaines Mises à Jour)
+* ❤️ **Synchronisation de la Vie** : Une seule santé pour toute l'équipe. Si un joueur meurt, tout le monde meurt !
+* 🍗 **Faim Partagée** : Gestion commune de la barre de faim.
+* 🦘 **Sauts & Effets Partagés** : Synchronisation des sauts et des effets de potions entre tous les joueurs.
 
-🚀 Upcoming Features (Roadmap):
-
-The mod is under development and EN traduction is on road ! Here is what’s coming in the next versions:
-
-❤️ Health Sync: If one player takes damage, everyone feels it!
-
-🍗 Shared Hunger: One hunger bar to rule them all.
-
-🦘 Shared Jumping: Jump together or stay on the ground.
-
-✨ Shared Effects: Potion effects are synchronized across all players.
-
-⚙️ Configuration Menu: Fully customizable options to toggle features on or off.
+**Developer:** [oxo140](https://github.com/oxo140)  
