@@ -1,0 +1,8 @@
+{
+  "damage.modid.fall": "Fall",
+  "damage.modid.lava": "Lava",
+  "damage.modid.on_fire": "Fire",
+  "damage.modid.explosion": "Explosion",
+  "damage.modid.player_attack": "Player",
+  "damage.modid.mob_attack": "Mob"
+}
