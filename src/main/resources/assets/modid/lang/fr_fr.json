@@ -46,5 +46,9 @@
   "damage.modid.menu.title": "Paramètres Damage Notify",
   "damage.modid.menu.auto": "Langue : Auto (Suit le jeu)",
   "damage.modid.menu.close": "Fermer",
-  "damage.modid.menu.saved": "Langue sauvegardée avec succès !"
+  "damage.modid.menu.saved": "Langue sauvegardée avec succès !",
+  "command.modid.sharedhealth.status": "[SharedGames] Synchronisation de la vie : %s",
+  "command.modid.sharedhealth.enabled": "ACTIVÉE",
+  "command.modid.sharedhealth.disabled": "DÉSACTIVÉE",
+  "message.modid.shared_death": "§c[SharedGames] Merci à §e%s §cqui vient de tuer tout le monde !"
 }

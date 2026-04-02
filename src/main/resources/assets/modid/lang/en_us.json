@@ -46,5 +46,9 @@
   "damage.modid.menu.title": "Damage Notify Settings",
   "damage.modid.menu.auto": "Language: Auto (Follows game)",
   "damage.modid.menu.close": "Close",
-  "damage.modid.menu.saved": "Language successfully saved!"
+  "damage.modid.menu.saved": "Language successfully saved!",
+  "command.modid.sharedhealth.status": "[SharedGames] Health Sync: %s",
+  "command.modid.sharedhealth.enabled": "ENABLED",
+  "command.modid.sharedhealth.disabled": "DISABLED",
+  "message.modid.shared_death": "§c[SharedGames] Thanks to §e%s §cfor killing everyone!"
 }

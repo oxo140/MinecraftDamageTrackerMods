@@ -6,14 +6,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player; // <-- IMPORTANT
 
-/**
- * Filtre les dégâts probablement « copiés » par un mod de vie partagée (même source lointaine)
- * et identifie le type de dégât pour l'affichage.
- */
 public final class DamageSourceAnalyzer {
 
-	/** Au-delà de cette distance, un dégât avec entité source est considéré comme non local (ex. miroir sync). */
 	private static final double MAX_ENTITY_SOURCE_DISTANCE = 32.0;
 
 	private DamageSourceAnalyzer() {
@@ -24,7 +20,6 @@ public final class DamageSourceAnalyzer {
 		if (typeId == null) {
 			return false;
 		}
-		// Beaucoup de mods appliquent des dégâts artificiels en « generic » pour synchroniser la vie.
 		if (Identifier.DEFAULT_NAMESPACE.equals(typeId.getNamespace())
 				&& "generic".equals(typeId.getPath())) {
 			return false;
@@ -46,6 +41,12 @@ public final class DamageSourceAnalyzer {
 
 	public static String attackerTypeIdString(DamageSource source) {
 		Entity e = source.getEntity();
+        
+        // 👇 NOUVEAU : Si l'entité est un joueur, on renvoie "player:SonPseudo"
+        if (e instanceof Player player) {
+            return "player:" + player.getScoreboardName();
+        }
+        // Sinon (zombie, squelette...), on renvoie l'identifiant classique
 		if (e instanceof LivingEntity living) {
 			return BuiltInRegistries.ENTITY_TYPE.getKey(living.getType()).toString();
 		}

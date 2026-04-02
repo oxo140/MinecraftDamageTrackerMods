@@ -7,25 +7,17 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-/**
- * Affichage au-dessus de la zone hotbar / XP (largeur type inventaire). Police vanilla {@link Font}.
- */
 public final class DamageHud {
 
 	private static final int MAX_WIDTH = 182;
 	private static final int DISPLAY_MS = 4000;
-	/** Rouge type Minecraft (proche §c). */
 	private static final int COLOR_NAME = 0xFFFF5555;
 	private static final int COLOR_REST = 0xFFFFFFFF;
-	/** Remonte le texte (~1 cm à l’échelle GUI habituelle). */
 	private static final int OFFSET_EXTRA_UP = 14;
-
-	/** Cœur : ❤ (U+2764) ; la police vanilla le colore en rouge via {@link #COLOR_NAME}. */
 	private static final String HEART_GLYPH = "\u2764";
 
 	private static volatile String fullText = "";
 	private static volatile int nameLengthChars = 0;
-	/** Index dans {@link #fullText} où commence la partie « — N ♥♥… » (rouge). */
 	private static volatile int damageStartCharIndex = 0;
 	private static volatile long hideAtMs = 0L;
 
@@ -42,7 +34,6 @@ public final class DamageHud {
 		hideAtMs = System.currentTimeMillis() + DISPLAY_MS;
 	}
 
-	/** Dégâts jeu → demi-cœurs affichés : 10 pts = 5 cœurs. */
 	private static String formatHeartsSuffix(float damagePoints) {
 		float hearts = damagePoints / 2f;
 		String num = (Math.abs(hearts - Math.rint(hearts)) < 1e-3f)
@@ -53,16 +44,26 @@ public final class DamageHud {
 	}
 
 	private static String labelFor(String damageTypeId, String attackerTypeId) {
-		// 1. Si une entité (mob/joueur) est responsable
 		if (attackerTypeId != null && !attackerTypeId.isEmpty()) {
+            
+            // 👇 NOUVEAU : Si c'est un vrai joueur, on extrait et affiche son pseudo !
+            if (attackerTypeId.startsWith("player:")) {
+                String playerName = attackerTypeId.substring(7); // On enlève le mot "player:"
+                
+                // Si le joueur l'a tué avec un lit ou cristal (explosion)
+                if ("explosion".equals(Identifier.parse(damageTypeId).getPath()) || "player_explosion".equals(Identifier.parse(damageTypeId).getPath())) {
+                    String format = ModConfig.translate("damage.modid.explosion_by", "%s (explosion)");
+                    return format.replace("%s", playerName);
+                }
+                return playerName;
+            }
+
 			try {
 				Identifier loc = Identifier.parse(attackerTypeId);
-				// Le nom des mobs vanilla reste dans la langue du jeu (plus naturel)
 				Component name = Component.translatable("entity." + loc.getNamespace() + "." + loc.getPath());
 				String mob = name.getString();
 				
 				if ("explosion".equals(Identifier.parse(damageTypeId).getPath())) {
-					// ON UTILISE NOTRE CONFIG POUR LA TRADUCTION DE L'EXPLOSION
 					String format = ModConfig.translate("damage.modid.explosion_by", "%s (explosion)");
 					return format.replace("%s", mob);
 				}
@@ -70,15 +71,11 @@ public final class DamageHud {
 			} catch (Exception ignored) {}
 		}
 		
-		// 2. Traduction de notre mod (chute, feu, lave...)
 		try {
 			String path = Identifier.parse(damageTypeId).getPath();
 			String translationKey = "damage.modid." + path;
-			
-			// ON UTILISE NOTRE CONFIG AU LIEU DU JEU NATIF
 			String translated = ModConfig.translate(translationKey, translationKey);
 			
-			// Si la traduction n'a pas été trouvée, on met le nom brut (secours)
 			if (translated.equals(translationKey)) {
 				return shortId(damageTypeId);
 			}

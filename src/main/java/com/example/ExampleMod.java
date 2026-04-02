@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.command.SharedHealthCommand; 
 import com.example.damage.DamageNotifyServer;
 import com.example.network.ModNetworking;
 import net.fabricmc.api.ModInitializer;
@@ -15,6 +16,11 @@ public class ExampleMod implements ModInitializer {
 	public void onInitialize() {
 		ModNetworking.registerPlayS2COnce();
 		DamageNotifyServer.register();
+		SharedHealthCommand.register(); 
+        
+		// 👇 NOUVELLE LIGNE : On lance l'horloge de synchronisation absolue 👇
+		com.example.sync.SharedHealthManager.register();
+        
 		LOGGER.info("Damage notify : logique serveur chargée (solo = serveur intégré + ce même chargement)");
 	}
 }

@@ -2,6 +2,8 @@ package com.example.client;
 
 import com.example.ExampleMod;
 import com.example.network.DamageNotifyPayload;
+import com.example.network.SharedDeathPayload;
+import com.example.network.SharedHealthPayload;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -21,11 +23,10 @@ public final class DamageNotifyClient {
         // 1. Initialisation de la configuration
         ModConfig.load();
 
-        // 2. Enregistrement de la commande locale /confighealthlanguage
+        // 2. Enregistrement de la commande locale /sharedlanguage
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-            dispatcher.register(ClientCommandManager.literal("confighealthlanguage")
+            dispatcher.register(ClientCommandManager.literal("sharedlanguage")
                 .executes(context -> {
-                    // L'ouverture d'un écran doit absolument se faire sur le thread du Client
                     Minecraft.getInstance().execute(() -> {
                         Minecraft.getInstance().setScreen(new ConfigScreen());
                     });
@@ -33,7 +34,7 @@ public final class DamageNotifyClient {
                 }));
         });
 
-        // 3. Réception du paquet réseau serveur -> client
+        // 3. Réception du paquet réseau (Damage Tracker)
         ClientPlayNetworking.registerGlobalReceiver(DamageNotifyPayload.TYPE, (payload, context) -> {
             context.client().execute(() -> DamageHud.show(
                     payload.victimName(),
@@ -42,7 +43,38 @@ public final class DamageNotifyClient {
                     payload.amount()));
         });
 
-        // 4. Affichage du HUD au-dessus de la barre d'expérience
+        // 4. Réception du paquet réseau (Activation/Désactivation Shared Health)
+        ClientPlayNetworking.registerGlobalReceiver(SharedHealthPayload.TYPE, (payload, context) -> {
+            context.client().execute(() -> {
+                if (context.client().player != null) {
+                    String stateKey = payload.isEnabled() ? "command.modid.sharedhealth.enabled" : "command.modid.sharedhealth.disabled";
+                    String stateTranslated = ModConfig.translate(stateKey, payload.isEnabled() ? "ENABLED" : "DISABLED");
+                    
+                    String coloredState = (payload.isEnabled() ? "§a" : "§c") + stateTranslated;
+                    String format = ModConfig.translate("command.modid.sharedhealth.status", "[SharedGames] Health Sync: %s");
+                    
+                    String finalMessage = "§e" + String.format(format, coloredState);
+                    context.client().player.displayClientMessage(net.minecraft.network.chat.Component.literal(finalMessage), false);
+                }
+            });
+        });
+
+        // 5. Réception du paquet réseau (Mort Partagée)
+        ClientPlayNetworking.registerGlobalReceiver(SharedDeathPayload.TYPE, (payload, context) -> {
+            context.client().execute(() -> {
+                if (context.client().player != null) {
+                    // On récupère la phrase dans la langue forcée par le joueur
+                    String format = ModConfig.translate("message.modid.shared_death", "§c[SharedGames] Thanks to §e%s §cfor killing everyone!");
+                    
+                    // On remplace %s par le nom du joueur
+                    String finalMessage = String.format(format, payload.victimName());
+                    
+                    context.client().player.displayClientMessage(net.minecraft.network.chat.Component.literal(finalMessage), false);
+                }
+            });
+        });
+
+        // 6. Affichage du HUD au-dessus de la barre d'expérience
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.HOTBAR,
                 HUD_ID,
