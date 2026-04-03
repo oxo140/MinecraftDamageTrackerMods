@@ -50,5 +50,8 @@
   "command.modid.sharedhealth.status": "[SharedGames] Health Sync: %s",
   "command.modid.sharedhealth.enabled": "ENABLED",
   "command.modid.sharedhealth.disabled": "DISABLED",
-  "message.modid.shared_death": "§c[SharedGames] Thanks to §e%s §cfor killing everyone!"
+  "message.modid.shared_death": "§c[SharedGames] Thanks to §e%s §cfor killing everyone!",
+  "command.modid.sharedhunger.status": "[SharedGames] Hunger Sync: %s",
+  "command.modid.sharedhunger.enabled": "ENABLED",
+  "command.modid.sharedhunger.disabled": "DISABLED"
 }

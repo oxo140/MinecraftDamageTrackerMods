@@ -50,5 +50,8 @@
   "command.modid.sharedhealth.status": "[SharedGames] Synchronisation de la vie : %s",
   "command.modid.sharedhealth.enabled": "ACTIVÉE",
   "command.modid.sharedhealth.disabled": "DÉSACTIVÉE",
-  "message.modid.shared_death": "§c[SharedGames] Merci à §e%s §cqui vient de tuer tout le monde !"
+  "message.modid.shared_death": "§c[SharedGames] Merci à §e%s §cqui vient de tuer tout le monde !",
+  "command.modid.sharedhunger.status": "[SharedGames] Synchronisation de la faim : %s",
+  "command.modid.sharedhunger.enabled": "ACTIVÉE",
+  "command.modid.sharedhunger.disabled": "DÉSACTIVÉE"
 }

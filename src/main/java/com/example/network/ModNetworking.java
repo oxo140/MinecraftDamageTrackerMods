@@ -17,14 +17,17 @@ public final class ModNetworking {
             if (playS2cRegistered) {
                 return;
             }
-            // Enregistrement du Damage Tracker
+            // 1. Enregistrement du Damage Tracker
             PayloadTypeRegistry.playS2C().register(DamageNotifyPayload.TYPE, DamageNotifyPayload.STREAM_CODEC);
             
-            // Enregistrement de la commande Shared Health
+            // 2. Enregistrement de la commande Shared Health
             PayloadTypeRegistry.playS2C().register(SharedHealthPayload.TYPE, SharedHealthPayload.STREAM_CODEC);
             
-            // 👇 CORRECTION : Enregistrement du message de mort partagée 👇
+            // 3. Enregistrement du message de mort partagée
             PayloadTypeRegistry.playS2C().register(SharedDeathPayload.TYPE, SharedDeathPayload.STREAM_CODEC);
+            
+            // 👇 4. LE MANQUANT : Enregistrement de la commande Shared Hunger 👇
+            PayloadTypeRegistry.playS2C().register(SharedHungerPayload.TYPE, SharedHungerPayload.STREAM_CODEC);
             
             playS2cRegistered = true;
         }

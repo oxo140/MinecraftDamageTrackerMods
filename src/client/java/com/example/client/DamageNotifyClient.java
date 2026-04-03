@@ -4,6 +4,8 @@ import com.example.ExampleMod;
 import com.example.network.DamageNotifyPayload;
 import com.example.network.SharedDeathPayload;
 import com.example.network.SharedHealthPayload;
+import com.example.network.SharedHungerPayload;
+
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -73,7 +75,22 @@ public final class DamageNotifyClient {
                 }
             });
         });
-
+        // Réception du paquet réseau (Activation/Désactivation Shared Hunger)
+        ClientPlayNetworking.registerGlobalReceiver(SharedHungerPayload.TYPE, (payload, context) -> {
+            context.client().execute(() -> {
+                if (context.client().player != null) {
+                    String stateKey = payload.isEnabled() ? "command.modid.sharedhunger.enabled" : "command.modid.sharedhunger.disabled";
+                    String stateTranslated = ModConfig.translate(stateKey, payload.isEnabled() ? "ENABLED" : "DISABLED");
+                    
+                    String coloredState = (payload.isEnabled() ? "§a" : "§c") + stateTranslated;
+                    String format = ModConfig.translate("command.modid.sharedhunger.status", "[SharedGames] Hunger Sync: %s");
+                    
+                    String finalMessage = "§e" + String.format(format, coloredState);
+                    context.client().player.displayClientMessage(net.minecraft.network.chat.Component.literal(finalMessage), false);
+                }
+            });
+        });
+        
         // 6. Affichage du HUD au-dessus de la barre d'expérience
         HudElementRegistry.attachElementAfter(
                 VanillaHudElements.HOTBAR,
